@@ -6,24 +6,21 @@
     <title>PasteMaster 3000</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            width: 250px;
-            padding: 10px;
-            box-sizing: border-box;
+            width: 250px; /* Adjusted width to increase by 30% from an assumed base of 300px */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 5px;
+            background-color: white;
         }
-        #toggle-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        #toggle-label {
-            margin-right: 10px;
+        h1 {
+            color: #444;
+            font-size: 18px; /* Adjusted font size */
         }
         .switch {
             position: relative;
             display: inline-block;
-            width: 34px;
-            height: 20px;
+            width: 40px; /* Adjusted width */
+            height: 22px; /* Adjusted height */
+            margin: 10px 0;
         }
         .switch input {
             opacity: 0;
@@ -39,24 +36,39 @@
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 20px;
+            border-radius: 22px; /* Adjusted border-radius */
         }
         .slider:before {
             position: absolute;
             content: "";
-            height: 12px;
-            width: 12px;
-            border-radius: 50%;
-            left: 4px;
-            bottom: 4px;
+            height: 18px; /* Adjusted height */
+            width: 18px; /* Adjusted width */
+            left: 2px; /* Adjusted position */
+            bottom: 2px; /* Adjusted position */
             background-color: white;
             transition: .4s;
+            border-radius: 50%;
         }
         input:checked + .slider {
             background-color: #2196F3;
         }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
         input:checked + .slider:before {
-            transform: translateX(14px);
+            transform: translateX(18px); /* Adjusted translation */
+        }
+        p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        a {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -71,5 +83,21 @@
 </div>
 <p>Toggle the switch to enable or disable pasting functionality on the current page.</p>
 <script src="popup.js"></script>
+<div>
+    <a href="test.html" target="_blank">PasteMaster 3000 Testing Sandbox</a>
+</div>
+<div>
+    <a href="settings.html" target="_blank">Settings</a>
+</div>
+<div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScS44rEqFsfmxM1frnSkWAIcdeT8lNtvI7lQfJLGKY7fvnBJw/viewform?usp=sf_link" target="_blank">Provide Feedback</a>
+</div>
+
+<script>
+    // If using a button, add this script to handle the click event
+    document.getElementById('openSettings').addEventListener('click', function() {
+        window.open('settings.html', '_blank');
+    });
+</script>
 </body>
 </html>

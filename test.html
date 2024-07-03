@@ -3,45 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PasteMaster 3000 Sandbox</title>
+    <title>PasteMaster 3000 Test Page</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            margin: 50px;
-            text-align: left;
         }
-        form {
-            margin: 20px 0;
-            max-width: 400px;
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin: 15px 0 5px;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             box-sizing: border-box;
-        }
-        .explanation {
-            margin-bottom: 30px;
-            color: #555;
         }
     </style>
 </head>
 <body>
-<h1>PasteMaster 3000 Sandbox</h1>
-<p class="explanation">This page is a sandbox for testing the functionality of the "PasteMaster 3000" Chrome extension. The input fields below are set to not allow pasting by default. Use the extension to enable pasting in these fields.</p>
-<p>I dedicate this Chrome extension to my beautiful wife Samantha.  <3</p>
-<form>
-    <label for="routingNumber">Routing Number</label>
-    <input type="text" id="routingNumber" onpaste="return false;">
+<div class="container">
+    <h1>PasteMaster 3000 Test Page</h1>
+    <p>This page is a sandbox for testing the PasteMaster 3000 functionality.</p>
 
-    <label for="accountNumber">Account Number</label>
-    <input type="text" id="accountNumber" onpaste="return false;">
+    <div class="form-group">
+        <label for="routingNumber">Routing Number (onpaste attribute):</label>
+        <input type="text" id="routingNumber" onpaste="return false;">
+    </div>
 
-    <label for="driversLicense">Driver's License #</label>
-    <input type="text" id="driversLicense" onpaste="return false;">
-</form>
+    <div class="form-group">
+        <label for="accountNumber">Account Number (vanilla JS event listener):</label>
+        <input type="text" id="accountNumber">
+    </div>
+
+    <div class="form-group">
+        <label for="driversLicense">Driver's License # (jQuery event listener):</label>
+        <input type="text" id="driversLicense">
+    </div>
+</div>
+
+<!-- jQuery from CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Vanilla JS to prevent pasting on accountNumber field -->
+<script>
+    document.getElementById('accountNumber').addEventListener('paste', function(event) {
+        event.preventDefault();
+    });
+
+    // jQuery to prevent pasting on driversLicense field
+    $(document).ready(function(){
+        $('#driversLicense').on('paste', function(e) {
+            e.preventDefault();
+        });
+    });
+</script>
 </body>
 </html>

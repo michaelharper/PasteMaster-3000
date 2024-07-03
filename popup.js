@@ -1,28 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
     const toggleSwitch = document.getElementById('enablePaste');
 
-    // Restore the toggle state from chrome.storage
-    chrome.storage.sync.get('pasteEnabled', function(data) {
-        toggleSwitch.checked = data.pasteEnabled || false;
-        // Send message to update content script based on the stored state
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {
-                action: 'updatePasteState',
-                isEnabled: toggleSwitch.checked
-            });
-        });
-    });
-
-    // Set up event listener for the toggle switch
-    toggleSwitch.addEventListener('change', function() {
+    function handleToggleChange() {
         const isEnabled = toggleSwitch.checked;
         chrome.storage.sync.set({ pasteEnabled: isEnabled }, function() {
-            chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                 chrome.tabs.sendMessage(tabs[0].id, {
                     action: 'updatePasteState',
                     isEnabled: isEnabled
                 });
             });
         });
+    }
+
+    chrome.storage.sync.get('pasteEnabled', function(data) {
+        // Directly set the checked state without triggering the change event
+        toggleSwitch.checked = data.pasteEnabled || false;
+        // Now, add the event listener for future user interactions
+        toggleSwitch.addEventListener('change', handleToggleChange);
     });
 });
