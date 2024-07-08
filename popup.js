@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleToggleChange() {
         const isEnabled = toggleSwitch.checked;
-        chrome.storage.sync.set({ pasteEnabled: isEnabled }, function() {
-            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            const activeTabUrl = tabs[0].url;
+            chrome.storage.sync.set({ pasteEnabled: isEnabled, enabledUrl: activeTabUrl }, function() {
                 chrome.tabs.sendMessage(tabs[0].id, {
                     action: 'updatePasteState',
                     isEnabled: isEnabled
@@ -13,10 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    chrome.storage.sync.get('pasteEnabled', function(data) {
-        // Directly set the checked state without triggering the change event
-        toggleSwitch.checked = data.pasteEnabled || false;
-        // Now, add the event listener for future user interactions
-        toggleSwitch.addEventListener('change', handleToggleChange);
+    chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], function(data) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            const activeTabUrl = tabs[0].url;
+            if (data.enabledUrl === activeTabUrl) {
+                toggleSwitch.checked = data.pasteEnabled || false;
+            } else {
+                toggleSwitch.checked = false;
+            }
+            toggleSwitch.addEventListener('change', handleToggleChange);
+        });
     });
 });

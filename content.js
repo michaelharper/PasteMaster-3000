@@ -13,9 +13,16 @@ function makeFieldsPastable(isEnabled) {
     });
 }
 
-// Listen for messages from popup.js to apply changes
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === 'updatePasteState') {
         makeFieldsPastable(request.isEnabled);
     }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], function(data) {
+        if (data.enabledUrl === window.location.href) {
+            makeFieldsPastable(data.pasteEnabled);
+        }
+    });
 });
