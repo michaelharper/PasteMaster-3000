@@ -11,6 +11,13 @@ PasteMaster 3000 is an open-source Chrome extension designed to enhance your web
 - **Lightweight:** Minimal impact on browser performance.
 - **Open Source:** Free to use and modify.
 
+## Tested Browsers:
+PasteMaster 3000 has been tested and verified to work on Chromium-based browsers, including:
+- Google Chrome
+- Microsoft Edge
+- Brave
+- Opera
+
 ## Installation
 
 **Clone the Repository:**
