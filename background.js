@@ -1,35 +1,72 @@
-chrome.action.onClicked.addListener((tab) => {
+// Keep track of tabs where pasting is enabled
+let enabledTabs = new Set();
+
+// Function to check if pasting should be enabled and inject the script if needed
+function checkAndInjectScript(tabId, url) {
+    chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], (data) => {
+        if (data.pasteEnabled && data.enabledUrl === url) {
+            enabledTabs.add(tabId);
+            injectContentScript(tabId, true);
+        } else if (enabledTabs.has(tabId)) {
+            enabledTabs.delete(tabId);
+            injectContentScript(tabId, false);
+        } else {
+            enabledTabs.delete(tabId);
+            injectContentScript(tabId, false);
+        }
+    });
+}
+
+// Inject content script and send message
+function injectContentScript(tabId, isEnabled) {
     chrome.scripting.executeScript({
-        target: { tabId: tab.id },
+        target: { tabId: tabId },
         files: ['content.js']
+    }, () => {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+        } else {
+            chrome.tabs.sendMessage(tabId, {
+                action: 'updatePasteState',
+                isEnabled: isEnabled
+            });
+        }
+    });
+}
+
+// Listen for tab updates
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status === 'complete') {
+        checkAndInjectScript(tabId, tab.url);
+    }
+});
+
+// Listen for tab activation
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    chrome.tabs.get(activeInfo.tabId, (tab) => {
+        checkAndInjectScript(tab.id, tab.url);
     });
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status === 'complete') {
-        chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], function(data) {
-            if (tab.url === data.enabledUrl && data.pasteEnabled) {
-                chrome.scripting.executeScript({
-                    target: { tabId: tabId },
-                    files: ['content.js']
-                }, () => {
-                    chrome.tabs.sendMessage(tabId, {
-                        action: 'updatePasteState',
-                        isEnabled: true
-                    });
-                });
-            }
+// Listen for storage changes
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'sync' && (changes.pasteEnabled || changes.enabledUrl)) {
+        chrome.tabs.query({}, (tabs) => {
+            tabs.forEach(tab => checkAndInjectScript(tab.id, tab.url));
         });
     }
 });
 
-function updatePasteState(isEnabled) {
-    chrome.tabs.sendMessage(tabId, {
-        action: 'updatePasteState',
-        isEnabled: isEnabled
-    }, function(response) {
-        if (chrome.runtime.lastError) {
-            // Silently ignore the error
-        }
-    });
-}
+// Listen for extension icon clicks
+chrome.action.onClicked.addListener((tab) => {
+    checkAndInjectScript(tab.id, tab.url);
+});
+
+// Added: Listen for messages indicating storage update
+chrome.runtime.onMessage.addListener((message, sender,  sendResponse) => {
+    if (message.action === 'storageUpdated') {
+        chrome.tabs.query({}, (tabs) => {
+            tabs.forEach(tab => checkAndInjectScript(tab.id, tab.url));
+        });
+    }
+});
