@@ -19,6 +19,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
+// Immediately make fields pastable when the script is injected
+makeFieldsPastable(true);
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === 'updatePasteState') {
+        makeFieldsPastable(request.isEnabled);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], function(data) {
         if (data.enabledUrl === window.location.href) {
