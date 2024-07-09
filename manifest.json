@@ -24,11 +24,5 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["test.html"],
-      "matches": ["<all_urls>"]
-    }
   ]
 }
