@@ -4,6 +4,8 @@
 
 PasteMaster 3000 is an open-source Chrome extension designed to enhance your web browsing experience by allowing pasting into form fields that normally restrict it. With this extension, you can seamlessly paste text into input fields that have been set to prevent pasting.
 
+![PasteMaster 3000 Logo](https://github.com/michaelharper/pastemaster-3000/blob/main/images/pastemaster_3000.jpg?raw=true "PasteMaster 3000 Logo")
+
 ## Features
 
 - **Unblock Pasting:** Enable pasting in form fields that restrict it.
