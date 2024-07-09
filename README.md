@@ -1,4 +1,3 @@
-```markdown
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 # PasteMaster 3000
@@ -29,6 +28,7 @@ git clone https://github.com/michaelharper/pastemaster-3000.git
 **Test the Extension:**
 
 - Navigate to a website with restricted paste fields.
+  - Alternatively, you can test the extension on the [PasteMaster 3000 Test Page](https://michaelharper.net/pastemaster-3000/).
 - Click the extension icon to enable pasting.
 
 ## Usage
@@ -39,7 +39,7 @@ git clone https://github.com/michaelharper/pastemaster-3000.git
 
 ## Contributing
 
-We welcome contributions from the community! If you’d like to contribute to the development of PasteMaster 3000, please follow these steps:
+I welcome contributions from the community! If you’d like to contribute to the development of PasteMaster 3000, please follow these steps:
 
 1. **Fork the Repository:** Create a copy of the repository under your own GitHub account.
 2. **Create a Branch:** Develop your changes in a separate branch.
@@ -52,7 +52,6 @@ Please refer to our `CONTRIBUTING.md` file for more detailed guidelines.
 If you find PasteMaster 3000 useful and would like to support its development, consider making a donation:
 
 - **Buy Me a Coffee:** Support on [Buy Me a Coffee](https://www.buymeacoffee.com/)
-- **Ko-fi:** Support on [Ko-fi](https://ko-fi.com/)
 
 Your contributions help ensure continued development and improvements to the extension.
 
@@ -62,5 +61,5 @@ PasteMaster 3000 is licensed under the MIT License. See the `LICENSE` file for m
 
 ## Contact
 
-For any questions or feedback, please open an issue on our GitHub repository or reach out to us via email at your-email@example.com.
+For any questions or feedback, please open an issue on my GitHub repository or reach out to me via email at hello@michaelharper.net.
 ```
