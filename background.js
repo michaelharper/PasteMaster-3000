@@ -18,11 +18,12 @@ function checkAndUpdateScript(tabId, url) {
         chrome.tabs.sendMessage(tabId, {
             action: 'updatePasteState',
             isEnabled: isEnabled
-        }, response => {
+        }, () => {
             if (chrome.runtime.lastError) {
-                console.error("Error sending message to tab:", chrome.runtime.lastError.message);
+                console.log("Tab not ready yet, will try again on next update");
             }
         });
+        updatePopupState(tabId, url);
     });
 }
 
@@ -40,8 +41,6 @@ chrome.tabs.onCreated.addListener((tab) => {
     }
 });
 
-// Other listeners remain the same...
-
 // Function to update popup state
 function updatePopupState(tabId, url) {
     chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], (data) => {
@@ -58,4 +57,43 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
             updatePopupState(tab.id, tab.url);
         }
     });
+});
+
+// Listen for storage changes
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'sync' && (changes.pasteEnabled || changes.enabledUrl)) {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            if (tabs[0] && tabs[0].url) {
+                checkAndUpdateScript(tabs[0].id, tabs[0].url);
+            }
+        });
+    }
+});
+
+// Listen for extension icon clicks
+chrome.action.onClicked.addListener((tab) => {
+    if (tab && tab.url) {
+        checkAndUpdateScript(tab.id, tab.url);
+    }
+});
+
+// Listen for messages indicating storage update
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'storageUpdated') {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            if (tabs[0] && tabs[0].url) {
+                checkAndUpdateScript(tabs[0].id, tabs[0].url);
+            }
+        });
+    } else if (message.action === 'getPasteState') {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            if (tabs[0] && tabs[0].url) {
+                chrome.storage.sync.get(['pasteEnabled', 'enabledUrl'], (data) => {
+                    const isEnabled = data.pasteEnabled && data.enabledUrl === tabs[0].url;
+                    sendResponse({isEnabled: isEnabled});
+                });
+            }
+        });
+        return true; // Indicates that the response is asynchronous
+    }
 });
