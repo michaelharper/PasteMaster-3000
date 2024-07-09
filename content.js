@@ -40,3 +40,10 @@ const observer = new MutationObserver(() => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
+
+// Request current state from background script
+chrome.runtime.sendMessage({action: 'getPasteState'}, function(response) {
+    if (response && response.isEnabled !== undefined) {
+        makeFieldsPastable(response.isEnabled);
+    }
+});
