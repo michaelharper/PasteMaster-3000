@@ -19,10 +19,21 @@ PasteMaster 3000 has been tested and verified to work on Chromium-based browsers
 - Microsoft Edge
 - Brave
 - Opera
+- Canary
+- Vivaldi
 
 ## Installation
 
-**Clone the Repository:**
+There are two methods to install PasteMaster 3000:
+
+### Via Chrome Web Store
+
+1. Visit the [PasteMaster 3000 Chrome Web Store page](https://chromewebstore.google.com/detail/pastemaster-3000/omkaenfkgkbjncnbpcgabbpbpbbhogbj).
+2. Click on the "Add to Chrome" button to install the extension.
+
+### Manual Installation (Clone the Repository)
+
+1. Clone the repository to your local machine using Git:
 
 ```bash
 git clone https://github.com/michaelharper/pastemaster-3000.git
@@ -63,6 +74,10 @@ If you find PasteMaster 3000 useful and would like to support its development, c
 - **Buy Me a Coffee:** Support on [Buy Me a Coffee](https://www.buymeacoffee.com/)
 
 Your contributions help ensure continued development and improvements to the extension.
+
+## Future Improvements
+
+- Light/Dark Mode Compatibility: I'm aiming to design the extension interface and icon to work flawlessly in both light and dark modes, providing optimal visibility and user comfort.
 
 ## License
 
