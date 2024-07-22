@@ -71,7 +71,7 @@ Please refer to our `CONTRIBUTING.md` file for more detailed guidelines.
 
 If you find PasteMaster 3000 useful and would like to support its development, consider making a donation:
 
-- **Buy Me a Coffee:** Support on [Buy Me a Coffee](https://buymeacoffee.com/michaelharper)
+<a href="https://www.buymeacoffee.com/michaelharper" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 Your contributions help ensure continued development and improvements to the extension.
 
